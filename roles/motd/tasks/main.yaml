@@ -4,7 +4,7 @@
   copy:
     src: files/dynamic_motd
     dest: /usr/local/bin/dynamic_motd
-    mode: 'u+x'
+    mode: 'u+x,g+x,o+x'
   when:  ('"1 replacements made" in replace_sshd.msg') and ('"1 replacements made" in replace_login.msg')
   register: copy_script
 
