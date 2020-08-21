@@ -3,7 +3,7 @@ USER=`whoami`
 HOSTNAME=`uname -n`
 ROOT=`df -Ph $(mount | grep "on / " | awk '{ print $1}') | awk '{print $4}' | tail -n1`
 
-MEMORY1=`free -t -m | grep "buffers/cache" | awk '{print $3" MB";}'`
+MEMORY1=`free -t -m | grep "Mem" | awk '{print $6" MB";}'`
 MEMORY2=`free -t -m | grep "Mem" | awk '{print $2" MB";}'`
 PSA=`ps -Afl | wc -l`
 
