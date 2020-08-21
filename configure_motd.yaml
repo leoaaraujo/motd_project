@@ -1,5 +1,5 @@
 ---
-- hosts: MOTD
+- hosts: "{{ INV_GROUP }}"
   name: MOTD Configuration
   gather_facts: false
   roles:
