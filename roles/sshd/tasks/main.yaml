@@ -1,0 +1,21 @@
+---
+- name: Validando configuracao /etc/ssh/sshd_config
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    line: "PrintMotd no"
+    regex: "^PrintMotd no*"
+    state: present
+  check_mode: yes
+  register: sshd_config
+  ignore_errors: true
+
+- name: Ajustando configuracao /etc/ssh/sshd_config
+  replace: 
+    path: /etc/ssh/sshd_config
+    regexp: "^PrintMotd yes"
+    replace: "PrintMotd no"
+    backup: yes
+  when: '"added" in sshd_config.msg'
+  register: replace_sshd
+  notify:
+  - Restart sshd

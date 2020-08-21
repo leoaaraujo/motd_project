@@ -1,0 +1,20 @@
+---
+
+- name: Validando configuracao /etc/pam.d/login
+  lineinfile:
+    dest: /etc/pam.d/login
+    line: "#session optional pam_motd.so"
+    regex: "^#session optional pam_motd.so*"
+    state: present
+  check_mode: yes
+  register: pam_login
+  ignore_errors: true
+
+- name: Ajustando configuracao /etc/pam.d/login
+  replace: 
+    path: /etc/pam.d/login
+    regexp: "^session optional pam_motd.so"
+    replace: "#session optional pam_motd.so"
+    backup: yes
+  when: '"added" in pam_login.msg'
+  register: replace_login

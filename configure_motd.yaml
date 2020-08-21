@@ -1,0 +1,10 @@
+---
+- hosts: MOTD
+  name: MOTD Configuration
+  gather_facts: false
+  roles:
+    - sshd
+    - pamd
+    - motd
+
+    

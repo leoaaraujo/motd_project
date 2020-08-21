@@ -1,0 +1,25 @@
+---
+
+- name: Copiando dynamic_motd
+  copy:
+    src: files/dynamic_motd
+    dest: /usr/local/bin/dynamic_motd
+    mode: 'u+x'
+  when:  ('"1 replacements made" in replace_sshd.msg') and ('"1 replacements made" in replace_login.msg')
+  register: copy_script
+
+- name: Validando configuracao /etc/profile
+  lineinfile:
+    dest: /etc/profile
+    line: "/usr/local/bin/dynamic_motd"
+    regex: "/usr/local/bin/dynamic_motd"
+    state: present
+  check_mode: yes
+  register: profile_out
+  ignore_errors: true
+
+- name: "Ajustando /etc/profile"
+  lineinfile:
+    path: /etc/profile
+    line: "/usr/local/bin/dynamic_motd"
+  when:  (copy_script.changed|bool) and (profile_out.changed|bool)
